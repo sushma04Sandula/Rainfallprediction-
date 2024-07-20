@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rainfall Prediction</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('static/images/weather.jpg'); /* Path to your image */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            color: #00796b;
+        }
+        h1 {
+            color: #004d40;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        form {
+            background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background for readability */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 300px;
+        }
+        label {
+            color: #00796b;
+            font-weight: bold;
+        }
+        select {
+            display: block;
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #004d40;
+            border-radius: 5px;
+            background-color: #e0f2f1;
+            color: #004d40;
+        }
+        input[type="submit"] {
+            background-color: #00796b;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        input[type="submit"]:hover {
+            background-color: #004d40;
+        }
+        h2 {
+            color: #004d40;
+        }
+        .map-container {
+            text-align: center;
+            width: 350px;
+        }
+        img {
+            width: 350px;
+            height: 350px;
+            border: 2px solid #004d40;
+            border-radius: 10px;
+        }
+    </style>
+    <script>
+        function updateMap() {
+            var state = document.getElementById("state").value;
+            var mapImage = document.getElementById("mapImage");
+            var stateImages = {{ state_images|tojson|safe }};
+
+            // Set the source of the image based on the selected state
+            mapImage.src = stateImages[state] || "";
+        }
+    </script>
+</head>
+<body>
+    <h1>Rainfall Prediction Form</h1>
+    <div class="container">
+        <form method="post" action="/">
+            <label for="state">Select State:</label>
+            <select id="state" name="state" onchange="updateMap()">
+                <option value="">--Select State--</option>
+                <option value="ANDAMAN & NICOBAR ISLANDS">ANDAMAN & NICOBAR ISLANDS</option>
+                <option value="ARUNACHAL PRADESH">ARUNACHAL PRADESH</option>
+                <option value="ASSAM">ASSAM</option>
+                <option value="BIHAR">BIHAR</option>
+                <option value="CHHATTISGARH">CHHATTISGARH</option>
+                <option value="GOA">GOA</option>
+                <option value="GUJARAT">GUJARAT</option>
+                <option value="HARYANA">HARYANA</option>
+                <option value="HIMACHAL PRADESH">HIMACHAL PRADESH</option>
+                <option value="JAMMU & KASHMIR">JAMMU & KASHMIR</option>
+                <option value="JHARKHAND">JHARKHAND</option>
+                <option value="KARNATAKA">KARNATAKA</option>
+                <option value="KERALA">KERALA</option>
+                <option value="MADHYA PRADESH">MADHYA PRADESH</option>
+                <option value="MAHARASHTRA">MAHARASHTRA</option>
+                <option value="MANIPUR">MANIPUR</option>
+                <option value="MEGHALAYA">MEGHALAYA</option>
+                <option value="MIZORAM">MIZORAM</option>
+                <option value="NAGALAND">NAGALAND</option>
+                <option value="ODISHA">ODISHA</option>
+                <option value="PUNJAB">PUNJAB</option>
+                <option value="RAJASTHAN">RAJASTHAN</option>
+                <option value="SIKKIM">SIKKIM</option>
+                <option value="TAMIL NADU">TAMIL NADU</option>
+                <option value="TELANGANA">TELANGANA</option>
+                <option value="TRIPURA">TRIPURA</option>
+                <option value="UTTAR PRADESH">UTTAR PRADESH</option>
+                <option value="UTTARAKHAND">UTTARAKHAND</option>
+                <option value="WEST BENGAL">WEST BENGAL</option>
+            </select><br><br>
+            
+            <label for="month">Select Month:</label>
+            <select id="month" name="month">
+                <option value="JAN-FEB">JAN-FEB</option>
+                <option value="MAR-APR">MAR-APR</option>
+                <option value="MAY-JUN">MAY-JUN</option>
+                <option value="JUL-AUG">JUL-AUG</option>
+                <option value="SEP-OCT">SEP-OCT</option>
+                <option value="NOV-DEC">NOV-DEC</option>
+            </select><br><br>
+            
+            <label for="year">Select Year:</label>
+            <select id="year" name="year">
+                <!-- Generate years from 1900 to 2030 -->
+                <script>
+                    for (var i = 1900; i <= 2030; i++) {
+                        document.write('<option value="' + i + '">' + i + '</option>');
+                    }
+                </script>
+            </select><br><br>
+
+            <input type="submit" value="Predict Rainfall">
+        </form>
+
+        <div class="map-container">
+            <h2>State Map:</h2>
+            <img id="mapImage" src="" alt="State Map">
+        </div>
+    </div>
+</body>
+</html>
